@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MyExampleBot.Bot;
+using MyExampleBot.Commands;
 
 namespace MyExampleBot
 {
@@ -19,6 +21,9 @@ namespace MyExampleBot
                 .ConfigureServices((hostContext, services) =>
                 {
                     services.AddHostedService<Worker>();
+                    services.AddTelegramBot<MyBot>(hostContext.Configuration.GetSection("MyBot"))
+                        .AddUpdateHandler<HelloCommand>()
+                        .Configure();
                 });
     }
 }
